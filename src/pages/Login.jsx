@@ -31,7 +31,8 @@ export default function Login() {
       // Store token in localStorage as backup
       localStorage.setItem('accessToken', response.data.token);
       
-      navigate("/dashboard");
+      // Replace history entry to prevent back navigation
+      navigate("/dashboard", { replace: true });
     } catch (err) {
       setError(err?.response?.data?.message || "Something went wrong");
     } finally {

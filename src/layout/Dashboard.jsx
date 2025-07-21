@@ -1,6 +1,6 @@
 // File: src/pages/Dashboard.jsx
 
-import { useState } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import API_BASE_URL from '../utils/api.js';
@@ -18,46 +18,74 @@ import {
   FaCrown,
   FaKaaba,
 } from "react-icons/fa";
-import NotesSection from "../components/NotesSection";
-import Reminder from "../components/Reminder";
-import PrayersSection from "../components/PrayersSection";
-import TasbeehSection from "../components/TasbeehSection";
-import DailyAyah from "../components/DailyAyah";
-import HijriDate from "../components/HijriDate";
-import IslamicHistory from "../components/IslamicHistory";
-import AshraMushabara from "../components/AshraMushabara";
-import KhulfaRashideen from "../components/KhulfaRashideen";
-import PillarsOfIslam from "../components/PillarsOfIslam";
+import ErrorBoundary from '../components/ErrorBoundary';
+import HijriDate from '../components/HijriDate';
+
+// Lazy load components
+const NotesSection = lazy(() => import("../components/NotesSection"));
+const Reminder = lazy(() => import("../components/Reminder"));
+const PrayersSection = lazy(() => import("../components/PrayersSection"));
+const TasbeehSection = lazy(() => import("../components/TasbeehSection"));
+const DailyAyah = lazy(() => import("../components/DailyAyah"));
+const IslamicHistory = lazy(() => import("../components/IslamicHistory"));
+const AshraMushabara = lazy(() => import("../components/AshraMushabara"));
+const KhulfaRashideen = lazy(() => import("../components/KhulfaRashideen"));
+const PillarsOfIslam = lazy(() => import("../components/PillarsOfIslam"));
 
 const renderSection = (activeSection) => {
-  switch (activeSection) {
-    case "notes":
-      return <NotesSection />;
-    case "reminders":
-      return <Reminder/>;
-    case "prayers":
-      return <PrayersSection />;
-    case "tasbeeh":
-      return <TasbeehSection />;
-    case "ayah":
-      return <DailyAyah />;
-    case "history":
-      return <IslamicHistory />;
-    case "ashra":
-      return <AshraMushabara />;
-    case "khulfa":
-      return <KhulfaRashideen />;
-    case "pillars":
-      return <PillarsOfIslam />;
-    default:
-      return <NotesSection />;
-  }
+  const LoadingSpinner = () => (
+    <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+    </div>
+  );
+
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<LoadingSpinner />}>
+        {(() => {
+          switch (activeSection) {
+            case "notes": return <NotesSection />;
+            case "reminders": return <Reminder />;
+            case "prayers": return <PrayersSection />;
+            case "tasbeeh": return <TasbeehSection />;
+            case "ayah": return <DailyAyah />;
+            case "history": return <IslamicHistory />;
+            case "ashra": return <AshraMushabara />;
+            case "khulfa": return <KhulfaRashideen />;
+            case "pillars": return <PillarsOfIslam />;
+            default: return <NotesSection />;
+          }
+        })()}
+      </Suspense>
+    </ErrorBoundary>
+  );
 };
 
 export default function Dashboard() {
   const [activeSection, setActiveSection] = useState("notes");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
+
+  // Disable back button
+  useEffect(() => {
+    const preventBack = () => {
+      window.history.pushState(null, '', window.location.href);
+    };
+
+    const handlePopState = (event) => {
+      window.history.pushState(null, '', window.location.href);
+    };
+
+    // Push current state to history
+    window.history.pushState(null, '', window.location.href);
+    
+    // Listen for back button
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
@@ -66,10 +94,15 @@ export default function Dashboard() {
       await axios.get(`${API_BASE_URL}/auth/logout`, {
         withCredentials: true,
       });
-      navigate("/login");
+      localStorage.removeItem('accessToken');
+      // Clear history and navigate
+      window.history.replaceState(null, '', '/login');
+      navigate("/login", { replace: true });
     } catch (err) {
       console.error("Logout error:", err);
-      navigate("/login");
+      localStorage.removeItem('accessToken');
+      window.history.replaceState(null, '', '/login');
+      navigate("/login", { replace: true });
     }
   };
 
@@ -89,7 +122,7 @@ export default function Dashboard() {
           sidebarOpen ? "block" : "hidden"
         } md:block w-full md:w-64 bg-green-100 border-r border-green-200 min-h-screen transition-all duration-300 z-10 flex flex-col`}
       >
-        <div className="p-4">
+        <div className="p-4 flex-1 overflow-y-auto">
           <h2 className="text-xl font-bold text-green-800 mb-6 text-center hidden md:block">
             ﷽ Tazkiyah
           </h2>
@@ -178,14 +211,14 @@ export default function Dashboard() {
           </nav>
         </div>
         
-        {/* Logout Button - Always at bottom */}
-        <div className="mt-auto p-4">
+        {/* Logout Button - Fixed at bottom, always visible */}
+        <div className="p-4 border-t border-green-200 bg-green-100 sticky bottom-0">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 border border-red-200 hover:border-red-300 shadow-sm hover:shadow-md font-medium text-sm"
+            className="w-full flex items-center justify-center gap-2 px-3 py-3 rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 border border-red-200 hover:border-red-300 shadow-sm hover:shadow-md font-medium"
             title="Logout"
           >
-            <FaSignOutAlt size={14} />
+            <FaSignOutAlt size={16} />
             <span>Logout</span>
           </button>
         </div>
