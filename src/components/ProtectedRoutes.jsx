@@ -18,5 +18,5 @@ export default function ProtectedRoute({ children }) {
     isAuthenticated 
   });
 
-  return isAuthenticated ? children : <Navigate to="/dashboard" />;
+  return isAuthenticated ? children : <Navigate to="/login" />;
 }
