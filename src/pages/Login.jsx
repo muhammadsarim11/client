@@ -26,7 +26,11 @@ export default function Login() {
         form,
         { withCredentials: true }
       );
-      console.log('Login successful:', response.data); // Debug log
+      console.log('Login successful:', response.data);
+      
+      // Store token in localStorage as backup
+      localStorage.setItem('accessToken', response.data.token);
+      
       navigate("/dashboard");
     } catch (err) {
       setError(err?.response?.data?.message || "Something went wrong");

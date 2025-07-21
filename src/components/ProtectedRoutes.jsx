@@ -1,7 +1,6 @@
 import { Navigate } from "react-router-dom";
 
 export default function ProtectedRoute({ children }) {
-  // More reliable cookie checking
   const getCookie = (name) => {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -9,14 +8,17 @@ export default function ProtectedRoute({ children }) {
     return null;
   };
 
-  const accessToken = getCookie('accessToken');
+  const accessToken = getCookie('accessToken') || localStorage.getItem('accessToken');
   const isAuthenticated = accessToken && accessToken !== '';
 
   console.log('ProtectedRoute Debug:', { 
     allCookies: document.cookie,
+    cookieToken: getCookie('accessToken'),
+    localStorageToken: localStorage.getItem('accessToken'),
     accessToken, 
     isAuthenticated 
   });
 
   return isAuthenticated ? children : <Navigate to="/login" />;
 }
+
