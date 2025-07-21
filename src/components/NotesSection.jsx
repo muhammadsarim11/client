@@ -20,7 +20,7 @@ export default function NotesSection() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/note",
+        `${API_BASE_URL}/note`,
         newNote,
         { withCredentials: true }
       );
@@ -36,11 +36,10 @@ export default function NotesSection() {
     e.preventDefault();
     try {
       const res = await axios.put(
-        `http://localhost:5000/note/${editingNote._id}`,
+        `${API_BASE_URL}/note/${editingNote._id}`,
         newNote,
         { withCredentials: true }
       );
-      // Update the note in state
       setNotes((prev) => 
         prev.map(note => 
           note._id === editingNote._id ? res.data.data : note
@@ -66,7 +65,7 @@ export default function NotesSection() {
     }
     
     try {
-      await axios.delete(`http://localhost:5000/note/${noteId}`, {
+      await axios.delete(`${API_BASE_URL}/note/${noteId}`, {
         withCredentials: true,
       });
       setNotes((prev) => prev.filter(note => note._id !== noteId));
@@ -239,6 +238,10 @@ export default function NotesSection() {
     </div>
   );
 }
+
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from '../utils/api.js';
 
 function NotesSection() {
   const [notes, setNotes] = useState([]);
@@ -8,7 +9,7 @@ function NotesSection() {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/note", {
+        const res = await axios.get(`${API_BASE_URL}/note`, {
           withCredentials: true,
         });
         setNotes(res.data.notes);

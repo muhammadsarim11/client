@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaCheck, FaTimes } from "react-icons/fa";
+import API_BASE_URL from '../utils/api.js';
 
 export default function PrayersSection() {
   const [prayers, setPrayers] = useState({
@@ -28,7 +29,7 @@ export default function PrayersSection() {
 
     try {
       await axios.post(
-        "http://localhost:5000/user/prayers",
+        `${API_BASE_URL}/user/prayers`,
         { prayers: updatedPrayers },
         { withCredentials: true }
       );
@@ -41,7 +42,7 @@ export default function PrayersSection() {
   useEffect(() => {
     const fetchTodayPrayers = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/user/prayers", {
+        const res = await axios.get(`${API_BASE_URL}/user/prayers`, {
           withCredentials: true,
         });
         if (res.data.record && res.data.record.prayers) {
@@ -161,3 +162,4 @@ export default function PrayersSection() {
     </div>
   );
 }
+

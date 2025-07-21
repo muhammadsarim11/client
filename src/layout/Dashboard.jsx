@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_BASE_URL from '../utils/api.js';
 import {
   FaBook,
   FaBell,
@@ -62,13 +63,12 @@ export default function Dashboard() {
 
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:5000/auth/logout", {
+      await axios.get(`${API_BASE_URL}/auth/logout`, {
         withCredentials: true,
       });
       navigate("/login");
     } catch (err) {
       console.error("Logout error:", err);
-      // Force logout even if request fails
       navigate("/login");
     }
   };
