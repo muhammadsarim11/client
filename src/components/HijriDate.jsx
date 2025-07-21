@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaCalendarAlt, FaSpinner } from "react-icons/fa";
+import API_BASE_URL from '../utils/api.js';
 
 export default function HijriDate() {
   const [hijriData, setHijriData] = useState(null);
@@ -10,7 +11,7 @@ export default function HijriDate() {
   useEffect(() => {
     const fetchHijriDate = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/date");
+        const res = await axios.get(`${API_BASE_URL}/date`);
         setHijriData(res.data.data);
       } catch (err) {
         console.error("Error fetching Hijri date:", err);

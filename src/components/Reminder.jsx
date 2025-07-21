@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPlus, FaTimes, FaTrash, FaEdit, FaClock } from "react-icons/fa";
+import API_BASE_URL from '../utils/api.js';
 
 export default function Reminder() {
   const [reminders, setReminders] = useState([]);
@@ -18,7 +19,7 @@ export default function Reminder() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/reminder",
+        `${API_BASE_URL}/reminder`,
         newReminder,
         { withCredentials: true }
       );
@@ -34,7 +35,7 @@ export default function Reminder() {
     e.preventDefault();
     try {
       const res = await axios.put(
-        `http://localhost:5000/reminder/${editingReminder._id}`,
+        `${API_BASE_URL}/reminder/${editingReminder._id}`,
         newReminder,
         { withCredentials: true }
       );
@@ -67,7 +68,7 @@ export default function Reminder() {
     }
     
     try {
-      await axios.delete(`http://localhost:5000/reminder/${reminderId}`, {
+      await axios.delete(`${API_BASE_URL}/reminder/${reminderId}`, {
         withCredentials: true,
       });
       setReminders((prev) => prev.filter(reminder => reminder._id !== reminderId));
@@ -85,7 +86,7 @@ export default function Reminder() {
   useEffect(() => {
     const fetchReminders = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/reminder", {
+        const res = await axios.get(`${API_BASE_URL}/reminder`, {
           withCredentials: true,
         });
         const remindersData = res.data.data || [];

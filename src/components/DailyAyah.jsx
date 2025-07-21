@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaQuran, FaSpinner } from "react-icons/fa";
+import API_BASE_URL from '../utils/api.js';
 
 export default function DailyAyah() {
   const [ayah, setAyah] = useState(null);
@@ -10,7 +11,7 @@ export default function DailyAyah() {
   useEffect(() => {
     const fetchDailyAyah = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/ayah/today");
+        const res = await axios.get(`${API_BASE_URL}/ayah/today`);
         setAyah(res.data.data);
       } catch (err) {
         console.error("Error fetching daily ayah:", err);
@@ -103,6 +104,7 @@ export default function DailyAyah() {
     </div>
   );
 }
+
 
 
 

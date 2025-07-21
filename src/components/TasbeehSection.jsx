@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPlus, FaEdit, FaTrash, FaTimes, FaUndo } from "react-icons/fa";
+import API_BASE_URL from '../utils/api.js';
 
 export default function TasbeehSection() {
   const [tasbeehs, setTasbeehs] = useState([]);
@@ -21,7 +22,7 @@ export default function TasbeehSection() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/tasbeeh",
+        `${API_BASE_URL}/tasbeeh`,
         newTasbeeh,
         { withCredentials: true }
       );
@@ -37,7 +38,7 @@ export default function TasbeehSection() {
     console.log("Attempting to increment tasbeeh:", tasbeehId); // Debug log
     try {
       const res = await axios.patch(
-        `http://localhost:5000/tasbeeh/${tasbeehId}`,
+        `${API_BASE_URL}/tasbeeh/${tasbeehId}`,
         { increment: true },
         { withCredentials: true }
       );
@@ -59,7 +60,7 @@ export default function TasbeehSection() {
     }
     
     try {
-      const res = await axios.delete(`http://localhost:5000/tasbeeh/${tasbeehId}`, {
+      const res = await axios.delete(`${API_BASE_URL}/tasbeeh/${tasbeehId}`, {
         withCredentials: true,
       });
       setTasbeehs(prev => 
@@ -81,7 +82,7 @@ export default function TasbeehSection() {
     e.preventDefault();
     try {
       const res = await axios.put(
-        `http://localhost:5000/tasbeeh/${editingTasbeeh._id}`,
+        `${API_BASE_URL}/tasbeeh/${editingTasbeeh._id}`,
         newTasbeeh,
         { withCredentials: true }
       );
@@ -107,7 +108,7 @@ export default function TasbeehSection() {
   useEffect(() => {
     const fetchTasbeehs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/tasbeeh", {
+        const res = await axios.get(`${API_BASE_URL}/tasbeeh`, {
           withCredentials: true,
         });
         setTasbeehs(res.data.tasbeeh || []);
@@ -290,6 +291,7 @@ export default function TasbeehSection() {
     </div>
   );
 }
+
 
 
 
