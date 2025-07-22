@@ -21,20 +21,20 @@ export default function LandingPage() {
               <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-2 rounded-xl mr-3 shadow-md hover:shadow-lg transition-shadow">
                 <FaQuran className="text-white" size={20} />
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-green-800">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-800">
                 <span className="text-emerald-600">﷽</span> Tazkiyah
               </h1>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-2">
               <Link
                 to="/login"
-                className="text-green-700 hover:text-green-800 font-medium transition-all px-6 py-2 rounded-xl hover:bg-green-50 border border-green-200 hover:border-green-300"
+                className="text-green-700 hover:text-green-800 font-medium transition-all px-2 sm:px-4 py-1 sm:py-2 rounded-lg hover:bg-green-50 border border-green-200 hover:border-green-300 text-xs sm:text-sm"
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
-                className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-2 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all shadow-md hover:shadow-lg font-semibold transform hover:scale-105"
+                className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg hover:from-green-600 hover:to-emerald-600 transition-all shadow-md hover:shadow-lg font-semibold text-xs sm:text-sm"
               >
                 Get Started
               </Link>
@@ -74,17 +74,17 @@ export default function LandingPage() {
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col gap-4 justify-center items-center max-w-md mx-auto sm:max-w-none sm:flex-row">
             <Link
               to="/register"
-              className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-10 py-4 rounded-2xl hover:from-green-600 hover:to-emerald-600 transition-all shadow-lg hover:shadow-xl font-bold text-lg flex items-center justify-center group transform hover:scale-105"
+              className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-3 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all shadow-lg hover:shadow-xl font-bold text-center flex items-center justify-center group"
             >
               Begin Your Journey 
               <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               to="/login"
-              className="border-2 border-green-300 text-green-700 px-10 py-4 rounded-2xl hover:bg-green-50 transition-all font-semibold text-lg backdrop-blur-sm hover:border-green-400"
+              className="w-full sm:w-auto bg-white/90 border-2 border-green-500 text-green-700 px-6 py-3 rounded-xl hover:bg-green-50 hover:border-green-600 transition-all font-semibold text-center shadow-md hover:shadow-lg"
             >
               Sign In
             </Link>
@@ -236,8 +236,6 @@ export default function LandingPage() {
     </div>
   );
 }
-
-
 
 
 
