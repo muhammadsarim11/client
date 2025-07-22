@@ -229,52 +229,32 @@ export default function KhulfaRashideen() {
 
   if (selectedCaliph) {
     return (
-      <div className="p-4 sm:p-6 max-w-4xl mx-auto">
-        {/* Back Button */}
+      <div className="p-4 sm:p-6 max-w-4xl mx-auto min-h-screen">
+        {/* Back Button - Sticky */}
         <button
           onClick={handleBackClick}
-          className="flex items-center gap-2 text-green-600 hover:text-green-700 mb-6 transition-colors"
+          className="flex items-center gap-2 text-green-600 hover:text-green-700 mb-4 transition-colors sticky top-0 bg-white z-10 py-2"
         >
           <FaArrowLeft size={16} />
-          <span>Back to Khulfa-e-Rashideen</span>
+          <span>Back to Khulfa Rashideen</span>
         </button>
 
         {/* Caliph Details */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200 shadow-lg">
-          {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-green-800 mb-4 flex items-center gap-3">
-              <FaCrown className="text-green-600" />
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 sm:p-6 border border-green-200 shadow-lg">
+          {/* Header - Compact */}
+          <div className="text-center mb-4 sm:mb-6">
+            <h1 className="text-xl sm:text-3xl font-bold text-green-800 mb-2">
               {selectedCaliph.name}
             </h1>
-            
-            {/* Caliph Info Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="flex items-center gap-2 text-green-700">
-                <span className="font-medium">Arabic:</span>
-                <span className="text-lg" dir="rtl">{selectedCaliph.arabic}</span>
-              </div>
-              <div className="flex items-center gap-2 text-green-700">
-                <FaHeart size={16} />
-                <span className="font-medium">Title:</span>
-                <span>{selectedCaliph.title}</span>
-              </div>
-              <div className="flex items-center gap-2 text-green-700">
-                <FaCalendarAlt size={16} />
-                <span className="font-medium">Period:</span>
-                <span>{selectedCaliph.period}</span>
-              </div>
-              <div className="flex items-center gap-2 text-green-700">
-                <span className="font-medium">Key Achievements:</span>
-                <span>{selectedCaliph.achievements}</span>
-              </div>
-            </div>
+            <p className="text-green-600 text-sm sm:text-lg">
+              {selectedCaliph.period}
+            </p>
           </div>
 
-          {/* Full Biography */}
-          <div className="prose prose-green max-w-none">
-            <div className="bg-white rounded-lg p-6 border border-green-100">
-              <div className="whitespace-pre-line text-green-800 leading-relaxed">
+          {/* Biography - Scrollable */}
+          <div className="bg-white rounded-lg border border-green-100 max-h-[65vh] sm:max-h-[70vh] overflow-y-auto">
+            <div className="p-3 sm:p-6">
+              <div className="whitespace-pre-line text-green-800 leading-relaxed text-sm sm:text-base">
                 {selectedCaliph.fullBiography}
               </div>
             </div>
@@ -365,4 +345,6 @@ export default function KhulfaRashideen() {
     </div>
   );
 }
+
+
 

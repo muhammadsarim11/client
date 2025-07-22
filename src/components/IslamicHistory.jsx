@@ -354,44 +354,40 @@ export default function IslamicHistory() {
 
   if (selectedWar) {
     return (
-      <div className="p-4 sm:p-6 max-w-4xl mx-auto">
+      <div className="p-4 sm:p-6 max-w-4xl mx-auto min-h-screen">
         {/* Back Button */}
         <button
           onClick={handleBackClick}
-          className="flex items-center gap-2 text-green-600 hover:text-green-700 mb-6 transition-colors"
+          className="flex items-center gap-2 text-green-600 hover:text-green-700 mb-4 transition-colors sticky top-0 bg-white z-10 py-2"
         >
           <FaArrowLeft size={16} />
           <span>Back to History</span>
         </button>
 
         {/* War Details */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200 shadow-lg">
-          {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-green-800 mb-4 flex items-center gap-3">
-              <FaShieldAlt className="text-green-600" />
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 sm:p-6 border border-green-200 shadow-lg">
+          {/* Header - Compact for mobile */}
+          <div className="mb-4 sm:mb-6">
+            <h1 className="text-xl sm:text-3xl font-bold text-green-800 mb-2 sm:mb-4 flex items-center gap-2 sm:gap-3">
+              <FaShieldAlt className="text-green-600 text-lg sm:text-xl" />
               {selectedWar.name}
             </h1>
             
-            {/* War Info Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="flex items-center gap-2 text-green-700">
-                <FaCalendarAlt size={16} />
-                <span className="font-medium">Date:</span>
-                <span>{selectedWar.date}</span>
+            {/* Info Grid - Stack on mobile */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 text-sm sm:text-base">
+              <div className="flex items-center gap-2 bg-white rounded-lg p-2 sm:p-3 border border-green-100">
+                <FaCalendarAlt className="text-green-500 flex-shrink-0" />
+                <span className="text-green-700 font-medium truncate">{selectedWar.date}</span>
               </div>
-              <div className="flex items-center gap-2 text-green-700">
-                <FaMapMarkerAlt size={16} />
-                <span className="font-medium">Location:</span>
-                <span>{selectedWar.location}</span>
+              <div className="flex items-center gap-2 bg-white rounded-lg p-2 sm:p-3 border border-green-100">
+                <FaMapMarkerAlt className="text-green-500 flex-shrink-0" />
+                <span className="text-green-700 font-medium truncate">{selectedWar.location}</span>
               </div>
-              <div className="flex items-center gap-2 text-green-700">
-                <FaUsers size={16} />
-                <span className="font-medium">Participants:</span>
-                <span>{selectedWar.participants}</span>
+              <div className="flex items-center gap-2 bg-white rounded-lg p-2 sm:p-3 border border-green-100">
+                <FaUsers className="text-green-500 flex-shrink-0" />
+                <span className="text-green-700 font-medium truncate">{selectedWar.participants}</span>
               </div>
-              <div className="flex items-center gap-2 text-green-700">
-                <span className="font-medium">Result:</span>
+              <div className="flex items-center gap-2 bg-white rounded-lg p-2 sm:p-3 border border-green-100">
                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                   selectedWar.result.includes('Muslim Victory') 
                     ? 'bg-green-100 text-green-800' 
@@ -405,10 +401,10 @@ export default function IslamicHistory() {
             </div>
           </div>
 
-          {/* Full History */}
-          <div className="prose prose-green max-w-none">
-            <div className="bg-white rounded-lg p-6 border border-green-100">
-              <div className="whitespace-pre-line text-green-800 leading-relaxed">
+          {/* Full History - Scrollable container */}
+          <div className="bg-white rounded-lg border border-green-100 max-h-[60vh] sm:max-h-[70vh] overflow-y-auto">
+            <div className="p-3 sm:p-6">
+              <div className="whitespace-pre-line text-green-800 leading-relaxed text-sm sm:text-base">
                 {selectedWar.fullHistory}
               </div>
             </div>
@@ -494,6 +490,7 @@ export default function IslamicHistory() {
     </div>
   );
 }
+
 
 
 

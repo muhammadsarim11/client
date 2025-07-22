@@ -291,36 +291,38 @@ export default function PillarsOfIslam() {
 
   if (selectedPillar) {
     return (
-      <div className="p-4 sm:p-6">
-        {/* Back Button */}
+      <div className="p-4 sm:p-6 max-w-4xl mx-auto min-h-screen">
+        {/* Back Button - Sticky */}
         <button
           onClick={handleBackClick}
-          className="flex items-center gap-2 text-green-600 hover:text-green-800 mb-6 transition-colors"
+          className="flex items-center gap-2 text-green-600 hover:text-green-800 mb-4 transition-colors sticky top-0 bg-white z-10 py-2"
         >
           <FaArrowLeft size={16} />
           <span>Back to Pillars</span>
         </button>
 
         {/* Pillar Detail */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200 shadow-lg">
-          {/* Header */}
-          <div className="text-center mb-6">
-            <div className="text-6xl mb-4">{selectedPillar.icon}</div>
-            <h2 className="text-3xl font-bold text-green-800 mb-2">
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 sm:p-6 border border-green-200 shadow-lg">
+          {/* Header - Compact for mobile */}
+          <div className="text-center mb-4 sm:mb-6">
+            <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{selectedPillar.icon}</div>
+            <h2 className="text-xl sm:text-3xl font-bold text-green-800 mb-2">
               {selectedPillar.name}
             </h2>
-            <p className="text-xl text-green-600 mb-2" dir="rtl">
+            <p className="text-lg sm:text-xl text-green-600 mb-2" dir="rtl">
               {selectedPillar.arabic}
             </p>
-            <p className="text-lg text-green-700 font-medium">
+            <p className="text-sm sm:text-lg text-green-700 font-medium">
               {selectedPillar.title}
             </p>
           </div>
 
-          {/* Description */}
-          <div className="prose prose-green max-w-none">
-            <div className="text-green-800 leading-relaxed whitespace-pre-line">
-              {selectedPillar.fullDescription}
+          {/* Description - Scrollable container */}
+          <div className="bg-white rounded-lg border border-green-100 max-h-[65vh] sm:max-h-[70vh] overflow-y-auto">
+            <div className="p-3 sm:p-6">
+              <div className="text-green-800 leading-relaxed whitespace-pre-line text-sm sm:text-base">
+                {selectedPillar.fullDescription}
+              </div>
             </div>
           </div>
         </div>

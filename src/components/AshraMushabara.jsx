@@ -1270,47 +1270,32 @@ export default function AshraMushabara() {
 
   if (selectedCompanion) {
     return (
-      <div className="p-4 sm:p-6 max-w-4xl mx-auto">
-        {/* Back Button */}
+      <div className="p-4 sm:p-6 max-w-4xl mx-auto min-h-screen">
+        {/* Back Button - Sticky */}
         <button
           onClick={handleBackClick}
-          className="flex items-center gap-2 text-green-600 hover:text-green-700 mb-6 transition-colors"
+          className="flex items-center gap-2 text-green-600 hover:text-green-700 mb-4 transition-colors sticky top-0 bg-white z-10 py-2"
         >
           <FaArrowLeft size={16} />
           <span>Back to Ashra Mubashra</span>
         </button>
 
         {/* Companion Details */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 border border-green-200 shadow-lg">
-          {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-green-800 mb-4 flex items-center gap-3">
-              <FaStar className="text-green-600" />
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 sm:p-6 border border-green-200 shadow-lg">
+          {/* Header - Compact */}
+          <div className="text-center mb-4 sm:mb-6">
+            <h1 className="text-xl sm:text-3xl font-bold text-green-800 mb-2">
               {selectedCompanion.name}
             </h1>
-            
-            {/* Companion Info Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="flex items-center gap-2 text-green-700">
-                <span className="font-medium">Arabic:</span>
-                <span className="text-lg" dir="rtl">{selectedCompanion.arabic}</span>
-              </div>
-              <div className="flex items-center gap-2 text-green-700">
-                <FaHeart size={16} />
-                <span className="font-medium">Title:</span>
-                <span>{selectedCompanion.title}</span>
-              </div>
-              <div className="flex items-center gap-2 text-green-700 md:col-span-2">
-                <span className="font-medium">Relation:</span>
-                <span>{selectedCompanion.relation}</span>
-              </div>
-            </div>
+            <p className="text-green-600 text-sm sm:text-lg italic">
+              {selectedCompanion.title}
+            </p>
           </div>
 
-          {/* Full Biography */}
-          <div className="prose prose-green max-w-none">
-            <div className="bg-white rounded-lg p-6 border border-green-100">
-              <div className="whitespace-pre-line text-green-800 leading-relaxed">
+          {/* Biography - Scrollable */}
+          <div className="bg-white rounded-lg border border-green-100 max-h-[65vh] sm:max-h-[70vh] overflow-y-auto">
+            <div className="p-3 sm:p-6">
+              <div className="whitespace-pre-line text-green-800 leading-relaxed text-sm sm:text-base">
                 {selectedCompanion.fullBiography}
               </div>
             </div>

@@ -2,7 +2,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import axios from "axios";
 import API_BASE_URL from '../utils/api.js';
-import { FaPlus, FaEdit, FaTrash, FaSearch, FaTimes } from "react-icons/fa";
+import { FaPlus, FaEdit, FaTrash, FaSearch, FaTimes, FaExclamationTriangle } from "react-icons/fa";
 
 // Debounce function outside component
 function debounce(func, wait) {
@@ -24,6 +24,7 @@ export default function NotesSection() {
   const [editingNote, setEditingNote] = useState(null);
   const [form, setForm] = useState({ title: "", content: "" });
   const [searchTerm, setSearchTerm] = useState("");
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
 
   // All useEffect hooks first
   useEffect(() => {
@@ -123,16 +124,17 @@ export default function NotesSection() {
     setShowModal(true);
   };
 
-  const handleDeleteNote = async (noteId) => {
-    if (!confirm("Are you sure you want to delete this note?")) {
-      return;
-    }
-    
+  const handleDeleteNote = (noteId) => {
+    setShowDeleteConfirm(noteId);
+  };
+
+  const confirmDelete = async () => {
     try {
-      await axios.delete(`${API_BASE_URL}/note/${noteId}`, {
+      await axios.delete(`${API_BASE_URL}/note/${showDeleteConfirm}`, {
         withCredentials: true,
       });
-      setNotes(prev => prev.filter(note => note._id !== noteId));
+      setNotes(prev => prev.filter(note => note._id !== showDeleteConfirm));
+      setShowDeleteConfirm(null);
     } catch (err) {
       console.error("Error deleting note:", err);
     }
@@ -270,8 +272,41 @@ export default function NotesSection() {
           </div>
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-8 max-w-md mx-4 text-center border-t-4 border-red-500 shadow-2xl">
+            <div className="bg-red-100 rounded-full p-4 w-fit mx-auto mb-6">
+              <FaExclamationTriangle className="text-red-500 text-3xl" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              Delete Note?
+            </h3>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              Are you sure you want to delete this note? This action cannot be undone and all content will be lost.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowDeleteConfirm(null)}
+                className="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-xl hover:bg-gray-300 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="flex-1 bg-red-500 text-white py-3 px-6 rounded-xl hover:bg-red-600 transition-colors font-medium shadow-lg"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
+
 
 
