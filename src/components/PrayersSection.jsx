@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { FaCheck, FaTimes } from "react-icons/fa";
-import API_BASE_URL from '../utils/api.js';
 
 export default function PrayersSection() {
-  const [prayers, setPrayers] = useState({
+  const defaultPrayers = {
     fajr: false,
     dhuhr: false,
     asr: false,
     maghrib: false,
     isha: false,
-  });
+  };
+  const [prayers, setPrayers] = useState(defaultPrayers);
   const [loading, setLoading] = useState(true);
 
   const prayerNames = [
@@ -21,40 +20,29 @@ export default function PrayersSection() {
     { key: 'isha', name: 'Isha', arabic: 'العشاء', time: 'Night', icon: '🌙' },
   ];
 
-  const handlePrayerToggle = async (prayerKey) => {
+  // Save prayers to localStorage
+  const savePrayersToStorage = (prayersObj) => {
+    localStorage.setItem('prayers', JSON.stringify(prayersObj));
+  };
+
+  // Load prayers from localStorage
+  const loadPrayersFromStorage = () => {
+    const stored = localStorage.getItem('prayers');
+    return stored ? JSON.parse(stored) : defaultPrayers;
+  };
+
+  const handlePrayerToggle = (prayerKey) => {
     const updatedPrayers = {
       ...prayers,
       [prayerKey]: !prayers[prayerKey]
     };
-
-    try {
-      await axios.post(
-        `${API_BASE_URL}/user/prayers`,
-        { prayers: updatedPrayers },
-        { withCredentials: true }
-      );
-      setPrayers(updatedPrayers);
-    } catch (err) {
-      console.error("Error updating prayer:", err);
-    }
+    setPrayers(updatedPrayers);
+    savePrayersToStorage(updatedPrayers);
   };
 
   useEffect(() => {
-    const fetchTodayPrayers = async () => {
-      try {
-        const res = await axios.get(`${API_BASE_URL}/user/prayers`, {
-          withCredentials: true,
-        });
-        if (res.data.record && res.data.record.prayers) {
-          setPrayers(res.data.record.prayers);
-        }
-      } catch (err) {
-        console.error("Error fetching prayers:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTodayPrayers();
+    setPrayers(loadPrayersFromStorage());
+    setLoading(false);
   }, []);
 
   const completedPrayers = Object.values(prayers).filter(Boolean).length;
